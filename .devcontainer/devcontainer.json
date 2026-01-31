@@ -1,0 +1,6 @@
+{
+  "name": "fedora40-dev",
+  "build": {
+    "dockerfile": "fedora40.Dockerfile"
+  }
+}
