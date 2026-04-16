@@ -25,4 +25,3 @@ if __name__ == "__main__":
     
     db = Database(args.database)
     db.create_database(schema)
-
