@@ -1,5 +1,4 @@
 from datetime import datetime
-from database.db import Database
 
 class DBO:
     def __init__(self, db, table_name, fields, pk="ID"):
@@ -74,7 +73,7 @@ class DBO:
         self._insert_into_table(history_table, history_data)
 
         if "Change_cnt" in self.attributes["fields"]:
-            current_cnt = getattr(self, "Change_cnt")
+            current_cnt = current_row["Change_cnt"]
             if current_cnt is None:
                 current_cnt = 0
             self.Change_cnt = current_cnt + 1
@@ -86,7 +85,7 @@ class DBO:
             self.Last_editor = editor
 
         update_fields = [field for field in self.attributes["fields"] if field != pk]
-        set_clause = ", ".join(f'{field} = ?' for field in update_fields)
+        set_clause = ", ".join(f'"{field}" = ?' for field in update_fields)
         values = tuple(getattr(self, field) for field in update_fields) + (pk_value,)
 
         query = f'UPDATE "{table_name}" SET {set_clause} WHERE "{pk}" = ?'
