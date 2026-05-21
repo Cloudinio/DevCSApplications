@@ -19,3 +19,20 @@ class Users(DBO):
 
         if ID is not None:
             self.load(ID)
+    
+    @classmethod
+    def find_by_username(cls, db, username):
+        query = 'SELECT * FROM "Users" WHERE "Username" = ?'
+        row = db.fetchone(query, (username,))
+
+        if row is None:
+            return None
+
+        # создаём пустой объект без загрузки по ID
+        obj = cls(db)
+
+        # заполняем все поля из строки БД
+        for field in obj.attributes["fields"]:
+            setattr(obj, field, row[field])
+
+        return obj
